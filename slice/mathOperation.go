@@ -43,8 +43,17 @@ func Min[T Number](src []T) (min T, index int, err error) {
 	return
 }
 
-//交集
+// Intersection 交集
+func Intersection[T any](src []T, other []T) []T {
+	return nil
+}
 
-//并集
+// Union 并集
+func Union[T any](src []T, other []T) []T {
+	return nil
+}
 
-//差集
+// DifferenceSet 差集
+func DifferenceSet[T any](src []T, other []T) []T {
+	return nil
+}
