@@ -18,7 +18,11 @@ DeleteByValue      删除指定值的多个元素
 DeleteByValueFunc  删除指定值的多个元素的补充
 
 
-#mathOperation
+#mathOperation.go
 Max   获取切片中的最大值以及对应索引
 Min   获取切片中的最小值以及对应索引
+
+
+#unique.go
+Unique  切片去重
 ```
