@@ -18,7 +18,26 @@ func UnExpansion[T any](src []T, hard bool) ([]T, error) {
 		return tmpSlice, nil
 	}
 
-	//缩部分
+	//缩容部分
+	if cap(src) < 256 {
+		return src, nil
+	}
+	if len(src) <= cap(src)/3 {
+		tmpSlice := make([]T, 0, cap(src)/2)
+		for i := range src {
+			tmpSlice = append(tmpSlice, src[i])
+		}
+		return tmpSlice, nil
+	}
+	return src, nil
+}
+
+func unExpansion[T any](src []T) ([]T, error) {
+	if src == nil {
+		return src, SourceSliceIsNil
+	}
+
+	//缩容部分
 	if cap(src) < 256 {
 		return src, nil
 	}

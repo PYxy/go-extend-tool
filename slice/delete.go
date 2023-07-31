@@ -21,7 +21,6 @@ func DeleteByIndex[T any](src []T, indexSlice ...int) ([]T, error) {
 	if indexSlice[0] < 0 {
 		return src, IndexError
 	}
-
 	if indexSlice[len(indexSlice)-1] > srcLength {
 		return src, ElementNotExist
 	}
@@ -37,7 +36,7 @@ func DeleteByIndex[T any](src []T, indexSlice ...int) ([]T, error) {
 		src = append(src[0:v], src[v+1:]...) //源数组一直在变必须要记下来
 		Loop += 1
 	}
-	return src, nil
+	return unExpansion(src)
 }
 
 // DeleteByValue 根据val 删除,可一次性删除 count个
@@ -74,7 +73,7 @@ func DeleteByValue[T comparable](src []T, val T, count int) ([]T, error) {
 			loop += 1
 		}
 	}
-	return src, nil
+	return unExpansion(src)
 }
 
 func DeleteByValueFunc[T any](src []T, val T, count int, equal EqualFunc[T]) ([]T, error) {
@@ -110,5 +109,5 @@ func DeleteByValueFunc[T any](src []T, val T, count int, equal EqualFunc[T]) ([]
 		}
 	}
 
-	return src, nil
+	return unExpansion(src)
 }

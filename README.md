@@ -9,6 +9,7 @@ Index         查询命中的第一个索引
 IndexFunc
 IndexAll       查询命中的所有索引
 IndexAllFunc
+
 #add.go
 AddIndex       指定位置添加元素
 

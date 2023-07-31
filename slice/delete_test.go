@@ -128,6 +128,7 @@ func TestDeleteByIndex(t *testing.T) {
 }
 
 func TestDeleteByValue(t *testing.T) {
+
 	tests := []struct {
 		src       []int
 		tagVal    int
@@ -212,6 +213,7 @@ func TestDeleteByValue(t *testing.T) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
 			result, err := DeleteByValue[int](test.src, test.tagVal, test.count)
+			fmt.Println(len(result), cap(result))
 			assert.Equal(t, test.wantSlice, result)
 			assert.Equal(t, test.wartError, err)
 		})
@@ -363,6 +365,40 @@ func TestDeleteByValueFunc(t *testing.T) {
 				assert.Equal(t, test.err, err)
 			}
 
+		})
+	}
+}
+
+// 缩容测试
+func TestDeleteAndUnexpansion(t *testing.T) {
+	unExpansionSlice := make([]int, 0, 400)
+	for i := 0; i <= 100; i++ {
+		unExpansionSlice = append(unExpansionSlice, i)
+	}
+	tests := []struct {
+		src          []int
+		tagVal       int
+		count        int
+		wantSliceCap int
+		wantSliceLen int
+		wartError    error
+		name         string
+	}{
+		{
+			src:          unExpansionSlice,
+			tagVal:       2,
+			count:        -1,
+			wantSliceCap: 200,
+			wantSliceLen: 100,
+			name:         "只删除一个,并进行了缩容",
+		},
+	}
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			result, err := DeleteByValue[int](test.src, test.tagVal, test.count)
+			assert.Equal(t, test.wantSliceCap, cap(result))
+			assert.Equal(t, test.wantSliceLen, len(result))
+			assert.Equal(t, test.wartError, err)
 		})
 	}
 }
