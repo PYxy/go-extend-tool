@@ -32,6 +32,7 @@ func UnExpansion[T any](src []T, hard bool) ([]T, error) {
 	return src, nil
 }
 
+// unExpansion 切片缩容 (必须大于256)
 func unExpansion[T any](src []T) ([]T, error) {
 	if src == nil {
 		return src, SourceSliceIsNil

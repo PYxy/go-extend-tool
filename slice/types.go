@@ -2,6 +2,16 @@ package slice
 
 type EqualFunc[T any] func(a T, b T) bool
 
+type GetKey[T any, key comparable] func(T) key
+
+// RealNumber 实数
+// 绝大多数情况下，你都应该用这个来表达数字的含义
+type RealNumber interface {
+	~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 |
+		~int | ~int8 | ~int16 | ~int32 | ~int64 |
+		~float32 | ~float64
+}
+
 type Number interface {
-	~int64 | ~int32 | ~int8 | ~uint64 | ~uint32 | ~uint16 | ~uint8 | ~int | ~float64 | ~float32
+	RealNumber | ~complex64 | ~complex128
 }

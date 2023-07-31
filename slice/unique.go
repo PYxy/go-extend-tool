@@ -1,6 +1,6 @@
 package slice
 
-// Unique 去重 只保留第一个出现的
+// Unique 去重 只保留第一个出现的(如果是可比较模型 保留那一个都可以)
 func Unique[T comparable](src []T) ([]T, error) {
 	if src == nil {
 		return src, SourceSliceIsNil
@@ -20,11 +20,56 @@ func Unique[T comparable](src []T) ([]T, error) {
 		}
 	}
 
-	return src, nil
+	return unExpansion(src)
 }
 
-// UniqueFunc 不可比较模型中的
-func UniqueFunc[T any](src []T, equalFunc EqualFunc[T]) ([]T, error) {
+// UniqueFuncFirst 不可比较类型中的(只保留第一个出现的)
+func UniqueFuncFirst[T any, key comparable](src []T, getKey GetKey[T, key]) ([]T, error) {
+	if src == nil {
+		return src, SourceSliceIsNil
+	}
+	if len(src) == 0 {
+		return src, nil
+	}
+	tmpMap := make(map[key]struct{}, len(src))
+	var loop int
+	for i := range src {
+		i -= loop
+		mapKey := getKey(src[i])
+		if _, ok := tmpMap[mapKey]; ok {
+			src, _ = DeleteByIndex[T](src, i)
+			loop += 1
+		} else {
+			tmpMap[mapKey] = struct{}{}
+		}
+	}
 
-	return src, nil
+	return unExpansion(src)
+}
+
+// UniqueFuncLast 不可比较类型中的(只保留最后一个出现的)
+func UniqueFuncLast[T any, key comparable](src []T, getKey GetKey[T, key]) ([]T, error) {
+	if src == nil {
+		return src, SourceSliceIsNil
+	}
+	if len(src) == 0 {
+		return src, nil
+	}
+	tmpMap := make(map[key]int, len(src))
+	var loop int
+	for i := range src {
+		i -= loop
+		mapKey := getKey(src[i])
+		if index, ok := tmpMap[mapKey]; ok {
+			tmpMap[mapKey] = i
+			//删除的index  要根据实际情况进行移动
+			src, _ = DeleteByIndex[T](src, index-loop)
+
+			loop += 1
+		} else {
+			tmpMap[mapKey] = i
+		}
+	}
+
+	return unExpansion(src)
 }
