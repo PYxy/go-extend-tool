@@ -42,3 +42,32 @@ ReverseOnSelf  在 src 上进行翻转
 ToMap          切片转map
 ToMapFunc      
 ```
+
+list 文件夹
+
+```Bash
+#linked_list go
+NewLinkedList      创建空链表
+NewLinkedBySlice   传入切片,创建链表
+Get                返回对应下标的元素
+Append             在末尾追加元素
+Add                在特定下标处增加一个新元素
+Set                重置 index 位置的值
+Delete             删除目标元素的位置,并且返回该位置的值
+Len                返回长度
+Cap                返回容量
+Range              遍历 List 的所有元素
+AsSliceAsc         将 List 转化为一个切片(顺序)
+AsSliceRev         将 List 转化为一个切片(逆序)
+```
+
+
+bloom_filter/redis_filter 文件夹
+```Bash
+#redis.go
+NewRedisBloomFilter  创建一个基于redis的布隆过滤器
+Set                  根据key 设置状态
+Get                  根据key 获取状态
+Delete               删除布隆过滤器 生成的键
+Expire               给布隆过滤器 生成的键 设置过期时间
+```
